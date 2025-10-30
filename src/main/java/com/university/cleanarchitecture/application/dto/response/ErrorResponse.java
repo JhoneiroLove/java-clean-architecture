@@ -4,47 +4,29 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-/**
- * Response inmutable para errores de validación.
- * Usado por el GlobalExceptionHandler para retornar errores de forma consistente.
- *
- * @param code Código del error
- * @param message Mensaje general del error
- * @param timestamp Momento en que ocurrió el error
- * @param validationErrors Mapa de errores de validación por campo (opcional)
- */
-public record ErrorResponse(
+public class ErrorResponse {
 
-        String code,
-        String message,
+    private String code;
+    private String message;
 
-        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-        LocalDateTime timestamp,
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime timestamp;
 
-        Map<String, String> validationErrors
-) {
+    private Map<String, String> validationErrors;
 
-    /**
-     * Constructor para error simple sin detalles de validación.
-     */
-    public ErrorResponse(String code, String message) {
-        this(code, message, LocalDateTime.now(), null);
-    }
+    // Constructor por defecto
+    public ErrorResponse() {}
 
-    /**
-     * Constructor para errores de validación con detalles por campo.
-     */
-    public ErrorResponse(String code, String message, Map<String, String> validationErrors) {
-        this(code, message, LocalDateTime.now(), validationErrors);
-    }
+    // Getters y Setters
+    public String getCode() { return code; }
+    public void setCode(String code) { this.code = code; }
 
-    /**
-     * Verifica si hay errores de validación.
-     */
-    public boolean hasValidationErrors() {
-        return validationErrors != null && !validationErrors.isEmpty();
-    }
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
+
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+
+    public Map<String, String> getValidationErrors() { return validationErrors; }
+    public void setValidationErrors(Map<String, String> validationErrors) { this.validationErrors = validationErrors; }
 }
-
-
-

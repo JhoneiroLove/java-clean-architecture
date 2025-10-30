@@ -3,58 +3,41 @@ package com.university.cleanarchitecture.application.dto.query;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
-/**
- * Query inmutable para buscar Carreras por su duración en semestres.
- * Permite filtrar carreras cortas, estándar o largas.
- *
- * @param duracionSemestres Duración exacta en semestres (opcional)
- * @param duracionMinima Duración mínima en semestres (opcional)
- * @param duracionMaxima Duración máxima en semestres (opcional)
- * @param soloActivas Si true, solo retorna carreras activas
- */
-public record FindCarrerasByDuracionQuery(
+public class FindCarrerasByDuracionQuery {
 
-        @Min(value = 6, message = "La duración mínima es de 6 semestres")
-        @Max(value = 14, message = "La duración máxima es de 14 semestres")
-        Integer duracionSemestres,
+    @Min(value = 6, message = "La duración mínima es de 6 semestres")
+    @Max(value = 14, message = "La duración máxima es de 14 semestres")
+    private Integer duracionSemestres;
 
-        @Min(value = 6, message = "La duración mínima es de 6 semestres")
-        Integer duracionMinima,
+    @Min(value = 6, message = "La duración mínima es de 6 semestres")
+    private Integer duracionMinima;
 
-        @Max(value = 14, message = "La duración máxima es de 14 semestres")
-        Integer duracionMaxima,
+    @Max(value = 14, message = "La duración máxima es de 14 semestres")
+    private Integer duracionMaxima;
 
-        boolean soloActivas
-) {
+    private boolean soloActivas;
 
-    /**
-     * Constructor para buscar por duración exacta (solo carreras activas).
-     */
-    public FindCarrerasByDuracionQuery(Integer duracionSemestres) {
-        this(duracionSemestres, null, null, true);
+    public FindCarrerasByDuracionQuery() {}
+
+    public FindCarrerasByDuracionQuery(Integer duracionSemestres, Integer duracionMinima,
+                                       Integer duracionMaxima, boolean soloActivas) {
+        this.duracionSemestres = duracionSemestres;
+        this.duracionMinima = duracionMinima;
+        this.duracionMaxima = duracionMaxima;
+        this.soloActivas = soloActivas;
     }
 
-    /**
-     * Constructor para buscar por rango de duración (solo carreras activas).
-     */
-    public FindCarrerasByDuracionQuery(Integer duracionMinima, Integer duracionMaxima) {
-        this(null, duracionMinima, duracionMaxima, true);
-    }
+    public Integer getDuracionSemestres() { return duracionSemestres; }
+    public void setDuracionSemestres(Integer duracionSemestres) { this.duracionSemestres = duracionSemestres; }
 
-    /**
-     * Método helper para determinar si busca por duración exacta.
-     */
-    public boolean isBusquedaExacta() {
-        return duracionSemestres != null;
-    }
+    public Integer getDuracionMinima() { return duracionMinima; }
+    public void setDuracionMinima(Integer duracionMinima) { this.duracionMinima = duracionMinima; }
 
-    /**
-     * Método helper para determinar si busca por rango.
-     */
-    public boolean isBusquedaPorRango() {
-        return duracionMinima != null || duracionMaxima != null;
-    }
+    public Integer getDuracionMaxima() { return duracionMaxima; }
+    public void setDuracionMaxima(Integer duracionMaxima) { this.duracionMaxima = duracionMaxima; }
+
+    public boolean isSoloActivas() { return soloActivas; }
+    public void setSoloActivas(boolean soloActivas) { this.soloActivas = soloActivas; }
 }
-
 
 

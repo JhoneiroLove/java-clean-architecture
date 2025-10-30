@@ -1,53 +1,37 @@
 package com.university.cleanarchitecture.application.dto.response;
 
-/**
- * Response inmutable simplificado para listar Carreras.
- * Contiene solo la información esencial para mostrar en listas.
- *
- * @param id ID único de la carrera
- * @param nombre Nombre de la carrera
- * @param duracionSemestres Duración en semestres
- * @param tituloOtorgado Título profesional que otorga
- * @param activo Estado de activación
- * @param facultadId ID de la facultad
- * @param facultadNombre Nombre de la facultad
- */
-public record CarreraSummaryResponse(
+public class CarreraSummaryResponse {
 
-        Long id,
-        String nombre,
-        int duracionSemestres,
-        String tituloOtorgado,
-        boolean activo,
-        Long facultadId,
-        String facultadNombre
-) {
+    private Long id;
+    private String nombre;
+    private int duracionSemestres;
+    private String tituloOtorgado;
+    private boolean activo;
+    private Long facultadId;
+    private String facultadNombre;
 
-    /**
-     * Calcula la duración en años.
-     */
-    public int getDuracionAnios() {
-        return (int) Math.ceil(duracionSemestres / 2.0);
-    }
+    // Constructor por defecto
+    public CarreraSummaryResponse() {}
 
-    /**
-     * Determina si es una carrera de duración estándar.
-     */
-    public boolean isEstandar() {
-        return duracionSemestres == 10;
-    }
+    // Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    /**
-     * Determina si es una carrera corta.
-     */
-    public boolean isCorta() {
-        return duracionSemestres < 10;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    /**
-     * Determina si es una carrera larga.
-     */
-    public boolean isLarga() {
-        return duracionSemestres > 10;
-    }
+    public int getDuracionSemestres() { return duracionSemestres; }
+    public void setDuracionSemestres(int duracionSemestres) { this.duracionSemestres = duracionSemestres; }
+
+    public String getTituloOtorgado() { return tituloOtorgado; }
+    public void setTituloOtorgado(String tituloOtorgado) { this.tituloOtorgado = tituloOtorgado; }
+
+    public boolean isActivo() { return activo; }
+    public void setActivo(boolean activo) { this.activo = activo; }
+
+    public Long getFacultadId() { return facultadId; }
+    public void setFacultadId(Long facultadId) { this.facultadId = facultadId; }
+
+    public String getFacultadNombre() { return facultadNombre; }
+    public void setFacultadNombre(String facultadNombre) { this.facultadNombre = facultadNombre; }
 }

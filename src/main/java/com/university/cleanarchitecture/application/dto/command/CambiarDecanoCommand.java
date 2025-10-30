@@ -5,30 +5,30 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
-/**
- * Command inmutable para cambiar el decano de una Facultad.
- * Operación específica que modifica solo el decano.
- *
- * @param facultadId ID de la facultad (requerido)
- * @param nuevoDecano Nombre del nuevo decano (requerido)
- */
-public record CambiarDecanoCommand(
+public class CambiarDecanoCommand {
 
-        @NotNull(message = "El ID de la facultad es obligatorio")
-        @Positive(message = "El ID debe ser un número positivo")
-        Long facultadId,
+    @NotNull(message = "El ID de la facultad es obligatorio")
+    @Positive(message = "El ID debe ser un número positivo")
+    private Long facultadId;
 
-        @NotBlank(message = "El nombre del nuevo decano es obligatorio")
-        @Size(min = 3, max = 100, message = "El nombre del decano debe tener entre 3 y 100 caracteres")
-        String nuevoDecano
-) {
+    @NotBlank(message = "El nombre del nuevo decano es obligatorio")
+    @Size(min = 3, max = 100, message = "El nombre del decano debe tener entre 3 y 100 caracteres")
+    private String nuevoDecano;
 
-    public CambiarDecanoCommand {
-        if (nuevoDecano != null) {
-            nuevoDecano = nuevoDecano.trim();
-        }
+    // Constructor por defecto
+    public CambiarDecanoCommand() {}
+
+    // Constructor completo
+    public CambiarDecanoCommand(Long facultadId, String nuevoDecano) {
+        this.facultadId = facultadId;
+        this.nuevoDecano = nuevoDecano;
     }
+
+    // Getters y Setters
+    public Long getFacultadId() { return facultadId; }
+    public void setFacultadId(Long facultadId) { this.facultadId = facultadId; }
+
+    public String getNuevoDecano() { return nuevoDecano; }
+    public void setNuevoDecano(String nuevoDecano) { this.nuevoDecano = nuevoDecano; }
 }
-
-
 

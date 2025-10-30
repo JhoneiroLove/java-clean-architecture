@@ -3,85 +3,57 @@ package com.university.cleanarchitecture.application.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
-/**
- * Response inmutable que representa una Carrera completa.
- * Incluye información de la facultad asociada.
- *
- * @param id ID único de la carrera
- * @param nombre Nombre de la carrera (ya normalizado)
- * @param descripcion Descripción de la carrera
- * @param duracionSemestres Duración en semestres
- * @param duracionAnios Duración calculada en años
- * @param tituloOtorgado Título profesional que otorga
- * @param fechaRegistro Fecha de registro en el sistema
- * @param activo Estado de activación
- * @param facultadId ID de la facultad a la que pertenece
- * @param facultadNombre Nombre de la facultad
- * @param clasificacion Clasificación de la carrera (CORTA, ESTANDAR, LARGA)
- */
-public record CarreraResponse(
+public class CarreraResponse {
 
-        Long id,
-        String nombre,
-        String descripcion,
-        int duracionSemestres,
-        int duracionAnios,
-        String tituloOtorgado,
+    private Long id;
+    private String nombre;
+    private String descripcion;
+    private int duracionSemestres;
+    private int duracionAnios;
+    private String tituloOtorgado;
 
-        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-        LocalDateTime fechaRegistro,
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime fechaRegistro;
 
-        boolean activo,
-        Long facultadId,
-        String facultadNombre,
-        ClasificacionCarrera clasificacion
-) {
+    private boolean activo;
+    private Long facultadId;
+    private String facultadNombre;
+    private String clasificacion;
 
-    /**
-     * Enum para clasificación de carreras según duración.
-     */
-    public enum ClasificacionCarrera {
-        CORTA,      // Menos de 10 semestres
-        ESTANDAR,   // Exactamente 10 semestres (5 años)
-        LARGA       // Más de 10 semestres
-    }
+    // Constructor por defecto
+    public CarreraResponse() {}
 
-    /**
-     * Constructor que calcula automáticamente la clasificación.
-     */
-    public CarreraResponse(Long id, String nombre, String descripcion,
-                           int duracionSemestres, String tituloOtorgado,
-                           LocalDateTime fechaRegistro, boolean activo,
-                           Long facultadId, String facultadNombre) {
-        this(
-                id,
-                nombre,
-                descripcion,
-                duracionSemestres,
-                calcularDuracionAnios(duracionSemestres),
-                tituloOtorgado,
-                fechaRegistro,
-                activo,
-                facultadId,
-                facultadNombre,
-                determinarClasificacion(duracionSemestres)
-        );
-    }
+    // Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    private static int calcularDuracionAnios(int semestres) {
-        return (int) Math.ceil(semestres / 2.0);
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    private static ClasificacionCarrera determinarClasificacion(int semestres) {
-        if (semestres < 10) return ClasificacionCarrera.CORTA;
-        if (semestres == 10) return ClasificacionCarrera.ESTANDAR;
-        return ClasificacionCarrera.LARGA;
-    }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    /**
-     * Retorna un resumen descriptivo de la duración.
-     */
-    public String getDuracionDescriptiva() {
-        return duracionSemestres + " semestres (" + duracionAnios + " años)";
-    }
+    public int getDuracionSemestres() { return duracionSemestres; }
+    public void setDuracionSemestres(int duracionSemestres) { this.duracionSemestres = duracionSemestres; }
+
+    public int getDuracionAnios() { return duracionAnios; }
+    public void setDuracionAnios(int duracionAnios) { this.duracionAnios = duracionAnios; }
+
+    public String getTituloOtorgado() { return tituloOtorgado; }
+    public void setTituloOtorgado(String tituloOtorgado) { this.tituloOtorgado = tituloOtorgado; }
+
+    public LocalDateTime getFechaRegistro() { return fechaRegistro; }
+    public void setFechaRegistro(LocalDateTime fechaRegistro) { this.fechaRegistro = fechaRegistro; }
+
+    public boolean isActivo() { return activo; }
+    public void setActivo(boolean activo) { this.activo = activo; }
+
+    public Long getFacultadId() { return facultadId; }
+    public void setFacultadId(Long facultadId) { this.facultadId = facultadId; }
+
+    public String getFacultadNombre() { return facultadNombre; }
+    public void setFacultadNombre(String facultadNombre) { this.facultadNombre = facultadNombre; }
+
+    public String getClasificacion() { return clasificacion; }
+    public void setClasificacion(String clasificacion) { this.clasificacion = clasificacion; }
 }

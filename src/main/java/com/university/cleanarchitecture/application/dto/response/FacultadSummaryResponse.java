@@ -1,42 +1,34 @@
 package com.university.cleanarchitecture.application.dto.response;
 
-/**
- * Response inmutable simplificado para listar Facultades.
- * Contiene solo la información esencial para mostrar en listas.
- *
- * @param id ID único de la facultad
- * @param nombre Nombre de la facultad
- * @param ubicacion Ubicación física
- * @param decano Nombre del decano
- * @param activo Estado de activación
- * @param cantidadCarreras Número de carreras asociadas
- */
-public record FacultadSummaryResponse(
+public class FacultadSummaryResponse {
 
-        Long id,
-        String nombre,
-        String ubicacion,
-        String decano,
-        boolean activo,
-        int cantidadCarreras
-) {
+    private Long id;
+    private String nombre;
+    private String ubicacion;
+    private String decano;
+    private boolean activo;
+    private int cantidadCarreras;
 
-    /**
-     * Determina si la facultad puede ser eliminada.
-     * Una facultad solo puede eliminarse si no está activa y no tiene carreras.
-     */
-    public boolean puedeSerEliminada() {
-        return !activo && cantidadCarreras == 0;
-    }
+    // Constructor por defecto
+    public FacultadSummaryResponse() {}
 
-    /**
-     * Determina si la facultad puede ser desactivada.
-     * Una facultad solo puede desactivarse si no tiene carreras activas.
-     */
-    public boolean puedeSerDesactivada() {
-        return activo && cantidadCarreras == 0;
-    }
+    // Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public String getUbicacion() { return ubicacion; }
+    public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
+
+    public String getDecano() { return decano; }
+    public void setDecano(String decano) { this.decano = decano; }
+
+    public boolean isActivo() { return activo; }
+    public void setActivo(boolean activo) { this.activo = activo; }
+
+    public int getCantidadCarreras() { return cantidadCarreras; }
+    public void setCantidadCarreras(int cantidadCarreras) { this.cantidadCarreras = cantidadCarreras; }
 }
-
-
 

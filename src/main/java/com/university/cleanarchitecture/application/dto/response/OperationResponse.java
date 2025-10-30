@@ -3,44 +3,30 @@ package com.university.cleanarchitecture.application.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
-/**
- * Response inmutable genérico para operaciones exitosas.
- * Usado para respuestas de comandos que no retornan datos complejos.
- *
- * @param success Indica si la operación fue exitosa
- * @param message Mensaje descriptivo de la operación
- * @param timestamp Momento en que se completó la operación
- * @param resourceId ID del recurso afectado (opcional)
- */
-public record OperationResponse(
+public class OperationResponse {
 
-        boolean success,
-        String message,
+    private boolean success;
+    private String message;
 
-        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-        LocalDateTime timestamp,
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime timestamp;
 
-        Long resourceId
-) {
+    private Long resourceId;
 
-    /**
-     * Constructor para operación exitosa con ID de recurso.
-     */
-    public static OperationResponse success(String message, Long resourceId) {
-        return new OperationResponse(true, message, LocalDateTime.now(), resourceId);
-    }
+    // Constructor por defecto
+    public OperationResponse() {}
 
-    /**
-     * Constructor para operación exitosa sin ID de recurso.
-     */
-    public static OperationResponse success(String message) {
-        return new OperationResponse(true, message, LocalDateTime.now(), null);
-    }
+    // Getters y Setters
+    public boolean isSuccess() { return success; }
+    public void setSuccess(boolean success) { this.success = success; }
 
-    /**
-     * Constructor para operación fallida.
-     */
-    public static OperationResponse failure(String message) {
-        return new OperationResponse(false, message, LocalDateTime.now(), null);
-    }
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
+
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+
+    public Long getResourceId() { return resourceId; }
+    public void setResourceId(Long resourceId) { this.resourceId = resourceId; }
 }
+

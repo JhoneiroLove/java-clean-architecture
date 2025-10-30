@@ -2,62 +2,54 @@ package com.university.cleanarchitecture.application.dto.command;
 
 import jakarta.validation.constraints.*;
 
-/**
- * Command inmutable para registrar una nueva Carrera.
- *
- * @param facultadId ID de la facultad a la que pertenece (requerido)
- * @param nombre Nombre de la carrera (requerido, 3-100 caracteres)
- * @param descripcion Descripción de la carrera (opcional)
- * @param duracionSemestres Duración en semestres (requerido, 6-14)
- * @param tituloOtorgado Título profesional que otorga (requerido)
- */
-public record RegisterCarreraCommand(
+public class RegisterCarreraCommand {
 
-        @NotNull(message = "El ID de la facultad es obligatorio")
-        @Positive(message = "El ID de la facultad debe ser un número positivo")
-        Long facultadId,
+    @NotNull(message = "El ID de la facultad es obligatorio")
+    @Positive(message = "El ID de la facultad debe ser un número positivo")
+    private Long facultadId;
 
-        @NotBlank(message = "El nombre de la carrera es obligatorio")
-        @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
-        String nombre,
+    @NotBlank(message = "El nombre de la carrera es obligatorio")
+    @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
+    private String nombre;
 
-        @Size(max = 500, message = "La descripción no puede exceder 500 caracteres")
-        String descripcion,
+    @Size(max = 500, message = "La descripción no puede exceder 500 caracteres")
+    private String descripcion;
 
-        @NotNull(message = "La duración en semestres es obligatoria")
-        @Min(value = 6, message = "La duración mínima es de 6 semestres")
-        @Max(value = 14, message = "La duración máxima es de 14 semestres")
-        Integer duracionSemestres,
+    @NotNull(message = "La duración en semestres es obligatoria")
+    @Min(value = 6, message = "La duración mínima es de 6 semestres")
+    @Max(value = 14, message = "La duración máxima es de 14 semestres")
+    private Integer duracionSemestres;
 
-        @NotBlank(message = "El título otorgado es obligatorio")
-        @Size(min = 5, max = 100, message = "El título otorgado debe tener entre 5 y 100 caracteres")
-        String tituloOtorgado
-) {
+    @NotBlank(message = "El título otorgado es obligatorio")
+    @Size(min = 5, max = 100, message = "El título otorgado debe tener entre 5 y 100 caracteres")
+    private String tituloOtorgado;
 
-    public RegisterCarreraCommand {
-        if (nombre != null) {
-            nombre = nombre.trim();
-        }
-        if (descripcion != null) {
-            descripcion = descripcion.trim();
-        }
-        if (tituloOtorgado != null) {
-            tituloOtorgado = tituloOtorgado.trim();
-        }
+    // Constructor por defecto
+    public RegisterCarreraCommand() {}
+
+    // Constructor completo
+    public RegisterCarreraCommand(Long facultadId, String nombre, String descripcion,
+                                  Integer duracionSemestres, String tituloOtorgado) {
+        this.facultadId = facultadId;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.duracionSemestres = duracionSemestres;
+        this.tituloOtorgado = tituloOtorgado;
     }
 
-    /**
-     * Método auxiliar para verificar si es una carrera de duración estándar.
-     * Útil para lógica de negocio en la capa de aplicación.
-     */
-    public boolean isDuracionEstandar() {
-        return duracionSemestres != null && duracionSemestres == 10;
-    }
+    // Getters y Setters
+    public Long getFacultadId() { return facultadId; }
+    public void setFacultadId(Long facultadId) { this.facultadId = facultadId; }
 
-    /**
-     * Calcula la duración en años.
-     */
-    public int getDuracionEnAnios() {
-        return duracionSemestres != null ? (int) Math.ceil(duracionSemestres / 2.0) : 0;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
+    public Integer getDuracionSemestres() { return duracionSemestres; }
+    public void setDuracionSemestres(Integer duracionSemestres) { this.duracionSemestres = duracionSemestres; }
+
+    public String getTituloOtorgado() { return tituloOtorgado; }
+    public void setTituloOtorgado(String tituloOtorgado) { this.tituloOtorgado = tituloOtorgado; }
 }
