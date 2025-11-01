@@ -1,9 +1,9 @@
 package com.university.cleanarchitecture.infrastructure.adapter.out.persistence.adapter;
 
+import com.university.cleanarchitecture.application.port.out.FacultadRepositoryPort;
 import com.university.cleanarchitecture.domain.model.Facultad;
 import com.university.cleanarchitecture.domain.model.valueobjects.FacultadId;
 import com.university.cleanarchitecture.domain.model.valueobjects.NombreAcademico;
-import com.university.cleanarchitecture.domain.repository.FacultadRepository;
 import com.university.cleanarchitecture.infrastructure.adapter.out.persistence.jpa.entity.FacultadJpaEntity;
 import com.university.cleanarchitecture.infrastructure.adapter.out.persistence.jpa.repository.FacultadJpaRepository;
 import com.university.cleanarchitecture.infrastructure.adapter.out.persistence.mapper.FacultadJpaMapper;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class FacultadRepositoryAdapter implements FacultadRepository {
+public class FacultadRepositoryAdapter implements FacultadRepositoryPort {
 
     private final FacultadJpaRepository jpaRepository;
     private final FacultadJpaMapper mapper;
@@ -61,14 +61,6 @@ public class FacultadRepositoryAdapter implements FacultadRepository {
     }
 
     @Override
-    public List<Facultad> findByUbicacion(String ubicacion) {
-        return jpaRepository.findByUbicacion(ubicacion)
-                .stream()
-                .map(mapper::toDomainModel)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public boolean existsByNombre(NombreAcademico nombre) {
         return jpaRepository.existsByNombre(nombre.getValue());
     }
@@ -79,8 +71,8 @@ public class FacultadRepositoryAdapter implements FacultadRepository {
     }
 
     @Override
-    public long countCarrerasByFacultadId(FacultadId facultadId) {
-        return jpaRepository.countCarrerasByFacultadId(facultadId.getValue());
+    public int countCarrerasByFacultadId(FacultadId facultadId) {
+        return (int) jpaRepository.countCarrerasByFacultadId(facultadId.getValue());
     }
 
     @Override

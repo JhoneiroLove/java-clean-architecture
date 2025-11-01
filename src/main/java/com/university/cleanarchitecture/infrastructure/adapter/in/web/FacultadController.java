@@ -66,8 +66,9 @@ public class FacultadController {
     @Operation(summary = "Obtener todas las facultades", description = "Obtiene una lista de todas las facultades")
     @ApiResponse(responseCode = "200", description = "Lista de facultades encontradas")
     public ResponseEntity<List<FacultadSummaryResponse>> getAllFacultades(
-            @RequestParam(required = false) Boolean activo) {
-        FindAllFacultadesQuery query = new FindAllFacultadesQuery(activo);
+            @RequestParam(required = false, defaultValue = "false") Boolean activo) {
+        boolean incluirInactivas = activo == null ? false : !activo;
+        FindAllFacultadesQuery query = new FindAllFacultadesQuery(incluirInactivas);
         List<FacultadSummaryResponse> facultades = findAllFacultadesUseCase.findAll(query);
         return ResponseEntity.ok(facultades);
     }
@@ -100,7 +101,6 @@ public class FacultadController {
     public ResponseEntity<FacultadResponse> updateFacultad(
             @PathVariable Long facultadId,
             @Valid @RequestBody UpdateFacultadCommand command) {
-        // Aseguramos que el ID del path coincida con el del comando
         UpdateFacultadCommand updatedCommand = new UpdateFacultadCommand(
                 facultadId,
                 command.getNombre(),
@@ -144,4 +144,3 @@ public class FacultadController {
         return ResponseEntity.ok().build();
     }
 }
-

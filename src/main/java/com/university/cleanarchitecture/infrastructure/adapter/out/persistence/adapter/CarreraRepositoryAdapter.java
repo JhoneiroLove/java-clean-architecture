@@ -1,11 +1,10 @@
 package com.university.cleanarchitecture.infrastructure.adapter.out.persistence.adapter;
 
+import com.university.cleanarchitecture.application.port.out.CarreraRepositoryPort;
 import com.university.cleanarchitecture.domain.model.Carrera;
 import com.university.cleanarchitecture.domain.model.valueobjects.CarreraId;
-import com.university.cleanarchitecture.domain.model.valueobjects.Duracion;
 import com.university.cleanarchitecture.domain.model.valueobjects.FacultadId;
 import com.university.cleanarchitecture.domain.model.valueobjects.NombreAcademico;
-import com.university.cleanarchitecture.domain.repository.CarreraRepository;
 import com.university.cleanarchitecture.infrastructure.adapter.out.persistence.jpa.entity.CarreraJpaEntity;
 import com.university.cleanarchitecture.infrastructure.adapter.out.persistence.jpa.repository.CarreraJpaRepository;
 import com.university.cleanarchitecture.infrastructure.adapter.out.persistence.mapper.CarreraJpaMapper;
@@ -16,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class CarreraRepositoryAdapter implements CarreraRepository {
+public class CarreraRepositoryAdapter implements CarreraRepositoryPort {
 
     private final CarreraJpaRepository jpaRepository;
     private final CarreraJpaMapper mapper;
@@ -78,32 +77,16 @@ public class CarreraRepositoryAdapter implements CarreraRepository {
     }
 
     @Override
-    public List<Carrera> findByDuracion(Duracion duracion) {
-        return jpaRepository.findByDuracionSemestres(duracion.getSemestres())
+    public List<Carrera> findByDuracionSemestres(int semestres) {
+        return jpaRepository.findByDuracionSemestres(semestres)
                 .stream()
                 .map(mapper::toDomainModel)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Carrera> findCarrerasCortas() {
-        return jpaRepository.findCarrerasCortas()
-                .stream()
-                .map(mapper::toDomainModel)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Carrera> findCarrerasLargas() {
-        return jpaRepository.findCarrerasLargas()
-                .stream()
-                .map(mapper::toDomainModel)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Carrera> findByTituloOtorgadoContaining(String tituloOtorgado) {
-        return jpaRepository.findByTituloOtorgadoContaining(tituloOtorgado)
+    public List<Carrera> findByDuracionBetween(int minSemestres, int maxSemestres) {
+        return jpaRepository.findByDuracionSemestresBetween(minSemestres, maxSemestres)
                 .stream()
                 .map(mapper::toDomainModel)
                 .collect(Collectors.toList());
@@ -120,8 +103,8 @@ public class CarreraRepositoryAdapter implements CarreraRepository {
     }
 
     @Override
-    public long countActiveByFacultadId(FacultadId facultadId) {
-        return jpaRepository.countActiveByFacultadId(facultadId.getValue());
+    public int countActiveByFacultadId(FacultadId facultadId) {
+        return (int) jpaRepository.countActiveByFacultadId(facultadId.getValue());
     }
 
     @Override
@@ -129,4 +112,3 @@ public class CarreraRepositoryAdapter implements CarreraRepository {
         jpaRepository.deleteById(id.getValue());
     }
 }
-

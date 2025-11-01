@@ -23,6 +23,8 @@ public interface CarreraJpaRepository extends JpaRepository<CarreraJpaEntity, Lo
 
     List<CarreraJpaEntity> findByDuracionSemestres(Integer duracionSemestres);
 
+    List<CarreraJpaEntity> findByDuracionSemestresBetween(Integer minSemestres, Integer maxSemestres);
+
     @Query("SELECT c FROM CarreraJpaEntity c WHERE c.duracionSemestres < 10")
     List<CarreraJpaEntity> findCarrerasCortas();
 
@@ -38,4 +40,3 @@ public interface CarreraJpaRepository extends JpaRepository<CarreraJpaEntity, Lo
     @Query("SELECT COUNT(c) FROM CarreraJpaEntity c WHERE c.facultadId = :facultadId AND c.activo = true")
     long countActiveByFacultadId(@Param("facultadId") Long facultadId);
 }
-

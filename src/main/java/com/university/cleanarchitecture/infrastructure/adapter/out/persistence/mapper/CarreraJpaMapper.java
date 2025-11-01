@@ -21,6 +21,7 @@ public class CarreraJpaMapper {
         entity.setTituloOtorgado(carrera.getTituloOtorgado());
         entity.setFechaRegistro(carrera.getFechaRegistro());
         entity.setActivo(carrera.isActivo());
+
         return entity;
     }
 
@@ -37,4 +38,3 @@ public class CarreraJpaMapper {
         );
     }
 }
-

@@ -74,8 +74,9 @@ public class CarreraController {
     @ApiResponse(responseCode = "200", description = "Lista de carreras encontradas")
     public ResponseEntity<List<CarreraSummaryResponse>> getCarrerasByFacultad(
             @PathVariable Long facultadId,
-            @RequestParam(required = false) Boolean activo) {
-        FindCarrerasByFacultadQuery query = new FindCarrerasByFacultadQuery(facultadId, activo);
+            @RequestParam(required = false, defaultValue = "false") Boolean activo) {
+        boolean soloActivas = activo == null ? false : activo;
+        FindCarrerasByFacultadQuery query = new FindCarrerasByFacultadQuery(facultadId, soloActivas);
         List<CarreraSummaryResponse> carreras = findCarrerasByFacultadUseCase.findByFacultad(query);
         return ResponseEntity.ok(carreras);
     }
@@ -85,8 +86,8 @@ public class CarreraController {
     @ApiResponse(responseCode = "200", description = "Lista de carreras encontradas")
     public ResponseEntity<List<CarreraSummaryResponse>> getCarrerasByDuracion(
             @PathVariable Integer duracion,
-            @RequestParam(required = false) Boolean activo) {
-        boolean soloActivas = activo != null ? activo : false;
+            @RequestParam(required = false, defaultValue = "false") Boolean activo) {
+        boolean soloActivas = activo == null ? false : activo;
         FindCarrerasByDuracionQuery query = new FindCarrerasByDuracionQuery(
                 duracion, null, null, soloActivas);
         List<CarreraSummaryResponse> carreras = findCarrerasByDuracionUseCase.findByDuracion(query);
@@ -101,7 +102,6 @@ public class CarreraController {
     public ResponseEntity<CarreraResponse> updateCarrera(
             @PathVariable Long carreraId,
             @Valid @RequestBody UpdateCarreraCommand command) {
-        // Aseguramos que el ID del path coincida con el del comando
         UpdateCarreraCommand updatedCommand = new UpdateCarreraCommand(
                 carreraId,
                 command.getNombre(),

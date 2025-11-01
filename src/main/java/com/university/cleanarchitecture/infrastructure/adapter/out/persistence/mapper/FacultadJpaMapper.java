@@ -18,6 +18,7 @@ public class FacultadJpaMapper {
         entity.setDecano(facultad.getDecano());
         entity.setFechaRegistro(facultad.getFechaRegistro());
         entity.setActivo(facultad.isActivo());
+
         return entity;
     }
 
@@ -33,4 +34,11 @@ public class FacultadJpaMapper {
         );
     }
 }
+
+
+
+
+
+
+
 
